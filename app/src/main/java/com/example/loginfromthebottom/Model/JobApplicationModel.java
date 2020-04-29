@@ -3,6 +3,8 @@ package com.example.loginfromthebottom.Model;
 import java.util.Date;
 
 public class JobApplicationModel {
+
+    private int id;
     private String firstName;
     private String lastName;
     private String streetAddress;
@@ -22,7 +24,7 @@ public class JobApplicationModel {
 
     }
 
-    public JobApplicationModel(String _firstName, String _lastName, String _streetAddress, String _streetAddressSecondLineII, String _city,
+    public JobApplicationModel(int id,String _firstName, String _lastName, String _streetAddress, String _streetAddressSecondLineII, String _city,
                                String _stateOrProvince, int _postalCode, String _country, String _emailAddress, String _areaCode,
                                String _phoneNumber, String _applyingJob, Date _startDate, String _uploadFile) {
         firstName = _firstName;
@@ -39,6 +41,14 @@ public class JobApplicationModel {
         applyingJob = _applyingJob;
         startDate = _startDate;
         uploadFile = _uploadFile;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -151,5 +161,25 @@ public class JobApplicationModel {
 
     public void setUploadFile(String _uploadFile) {
         uploadFile = _uploadFile;
+    }
+
+    @Override
+    public String toString() {
+        return "JobApplicationModel{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", streetAddress='" + streetAddress + '\'' +
+                ", streetAddressSecondLineII='" + streetAddressSecondLineII + '\'' +
+                ", city='" + city + '\'' +
+                ", stateOrProvince='" + stateOrProvince + '\'' +
+                ", postalCode=" + postalCode +
+                ", country='" + country + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", areaCode='" + areaCode + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", applyingJob='" + applyingJob + '\'' +
+                ", startDate=" + startDate +
+                ", uploadFile='" + uploadFile + '\'' +
+                '}';
     }
 }

@@ -11,4 +11,8 @@
         <item>Java Developer</item>
         <item>.Net Developer</item>
     </string-array>
+
+
+    <string name="delete">ELIMINAR</string>
+    <string name="edit">VER</string>
 </resources>
