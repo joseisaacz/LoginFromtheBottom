@@ -165,21 +165,6 @@ public class JobApplicationModel {
 
     @Override
     public String toString() {
-        return "JobApplicationModel{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", streetAddress='" + streetAddress + '\'' +
-                ", streetAddressSecondLineII='" + streetAddressSecondLineII + '\'' +
-                ", city='" + city + '\'' +
-                ", stateOrProvince='" + stateOrProvince + '\'' +
-                ", postalCode=" + postalCode +
-                ", country='" + country + '\'' +
-                ", emailAddress='" + emailAddress + '\'' +
-                ", areaCode='" + areaCode + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", applyingJob='" + applyingJob + '\'' +
-                ", startDate=" + startDate +
-                ", uploadFile='" + uploadFile + '\'' +
-                '}';
+        return this.getFirstName()+" "+getLastName()+"\n"+" Applying Job: "+applyingJob;
     }
 }

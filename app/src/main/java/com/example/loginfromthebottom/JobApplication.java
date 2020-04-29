@@ -203,4 +203,12 @@ public class JobApplication extends AppCompatActivity {
 
 
     }
+
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        startActivity(new Intent(this,NavDrawerActivity.class));
+        super.onBackPressed();
+    }
 }

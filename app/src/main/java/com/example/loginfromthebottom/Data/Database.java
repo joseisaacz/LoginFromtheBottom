@@ -19,8 +19,8 @@ public class Database implements Serializable {
         {
             add(new JobApplicationModel(idJobApp++,"Jonathan","Estrada","Trinidad de Moravia","Urbanizacion Vista Azul","Moravia","San Jose",
                     11443,"Costa Rica","jjestradav@gmail.com","506","71727374","Java developer",new Date(),"/home/jonathan/hola.txt"));
-            add(new JobApplicationModel(idJobApp++,"Yamil","Estrada","Trinidad de Moravia","Urbanizacion Vista Azul","Moravia","San Jose",
-                    11443,"Costa Rica","yamilestradav@gmail.com","506","71727375","Java developer",new Date(),"/home/jonathan/hola.txt"));
+//            add(new JobApplicationModel(idJobApp++,"Yamil","Estrada","Trinidad de Moravia","Urbanizacion Vista Azul","Moravia","San Jose",
+//                    11443,"Costa Rica","yamilestradav@gmail.com","506","71727375","Java developer",new Date(),"/home/jonathan/hola.txt"));
         }
     };
 

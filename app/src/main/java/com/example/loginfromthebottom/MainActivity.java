@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(jobApp);
                     } else {
                         Toast.makeText(getApplicationContext(), "Exito", Toast.LENGTH_LONG).show();
-                        Intent JobApplication = new Intent(getApplicationContext(), JobApplication.class);
+                        Intent JobApplication = new Intent(getApplicationContext(), NavDrawerActivity.class);
                         startActivity(JobApplication);
                         finish();
                     }
