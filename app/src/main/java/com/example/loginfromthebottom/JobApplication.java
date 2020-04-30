@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,16 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.loginfromthebottom.Data.Database;
-import com.example.loginfromthebottom.Model.JobApplicationModel;
-
-import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class JobApplication extends AppCompatActivity {
     EditText firstName;
@@ -42,8 +33,8 @@ public class JobApplication extends AppCompatActivity {
     EditText startDate;
     ImageButton uploadFile;
     TextView fileName;
-    Database database= Database.getInstance();
     ImageButton save;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,7 +130,9 @@ public class JobApplication extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              submitForm();
+                if(empty()){
+
+                }
             }
         });
 
@@ -161,54 +154,5 @@ public class JobApplication extends AppCompatActivity {
                 }
                 break;
         }
-    }
-
-
-
-    private void submitForm() {
-        try {
-            String name = firstName.getText().toString();
-            String lastNameTxt = lastName.getText().toString();
-            String streetLine = streetAddress.getText().toString();
-            String streetLine2 = streetAddressSecondLineII.getText().toString();
-            String cityTxt = city.getText().toString();
-            String state = stateOrProvince.getText().toString();
-            int postal = Integer.parseInt(postalCode.getText().toString());
-            String countryTxt = (String) country.getSelectedItem();
-            String emailTxt = email.getText().toString();
-            String areaCodeTxt = areaCode.getText().toString();
-            String phoneTxt = phone.getText().toString();
-            String position = (String) applyingJob.getSelectedItem();
-            String dateStr = startDate.getText().toString();
-            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            Date date = format.parse(dateStr);
-           String file=fileName.getText().toString();
-            JobApplicationModel jobApp = new JobApplicationModel(Database.idJobApp++, name,lastNameTxt,streetLine,streetLine2,cityTxt,state,postal,countryTxt,
-                    emailTxt,areaCodeTxt,phoneTxt,position,date,file);
-
-            Database.getListOfApplications().add(jobApp);
-            Toast.makeText(getApplicationContext(), "Informacion Guardada", Toast.LENGTH_LONG).show();
-            for (JobApplicationModel job : Database.getListOfApplications()) {
-                Log.v("JOB APP", job.toString());
-            }
-            finish();
-            startActivity(getIntent());
-
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-            Log.e("SUBMIT ERROR", e.getMessage());
-        }
-
-
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        finish();
-        startActivity(new Intent(this,NavDrawerActivity.class));
-        super.onBackPressed();
     }
 }
