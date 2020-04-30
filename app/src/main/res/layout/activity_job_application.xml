@@ -13,7 +13,7 @@
     <!-- first row of the table layout-->
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:orientation="vertical">
 
         <TableRow
@@ -41,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="JOP APPLICATION"
+                    android:text="JOB APPLICATION"
                     android:textSize="20dp" />
 
                 <TextView
@@ -58,7 +58,7 @@
         <TableRow
 
             android:id="@+id/secondRow"
-            android:layout_width="350dp"
+            android:layout_width="400dp"
             android:layout_height="wrap_content">
 
             <TextView
@@ -235,11 +235,11 @@
         <TableRow
 
             android:id="@+id/ThridRow"
-            android:layout_width="350dp"
+            android:layout_width="400dp"
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_width="350dp"
+                android:layout_width="400dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
@@ -258,10 +258,10 @@
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textWebEmailAddress"
                     android:hint="ex: name@email.com"
                     android:textSize="9sp"
-                    android:textColor="@color/colorAccent" />
+                    android:textColor="@color/colorPrimaryDark" />
 
             </LinearLayout>
 
@@ -366,11 +366,11 @@
                     android:id="@+id/Fecha"
                     android:layout_width="150dp"
                     android:layout_height="36dp"
-                    android:hint="Select a Date"
-                    android:focusable = "false"
                     android:layout_marginLeft="35dp"
+                    android:focusable="false"
+                    android:hint="Select a Date"
                     android:textColor="#000"
-                    android:textSize="9sp"/>
+                    android:textSize="9sp" />
             </LinearLayout>
         </TableRow>
 
@@ -393,7 +393,8 @@
                 <ImageButton
                     android:id="@+id/uploadFile"
                     android:layout_width="50dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
+                    android:background="#3F51B5"
                     app:srcCompat="@android:drawable/ic_menu_upload" />
                 <TextView
                     android:id="@+id/fileName"
@@ -417,12 +418,23 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="25dp">
                 <ImageButton
                     android:id="@+id/save"
-                    android:layout_width="match_parent"
+                    android:layout_width="51dp"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@android:drawable/ic_menu_save" />
+                    android:layout_marginLeft="10dp"
+                    app:srcCompat="@android:drawable/ic_menu_save"
+                    android:background="#3F51B5"/>
+                <ImageButton
+                    android:id="@+id/cancel_action"
+                    android:layout_width="50dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/bg_row_background_delete"
+                    app:srcCompat="@android:drawable/ic_delete"
+                    android:hint="Cancel"/>
             </LinearLayout>
         </TableRow>
     </LinearLayout>
