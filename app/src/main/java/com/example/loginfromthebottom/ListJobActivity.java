@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -60,7 +61,7 @@ public class ListJobActivity extends AppCompatActivity implements RecyclerItemTo
             //If is editing a row object
             JobApplicationModel aux = adapter.getSwipedItem(viewHolder.getAdapterPosition());
             //send data to Edit Activity
-//            Intent intent = new Intent(this, AddUpdCarreraActivity.class);
+           //Intent intent = new Intent(this, AddUpdCarreraActivity.class);
 //            intent.putExtra("editable", true);
 //            intent.putExtra("carrera", aux);
             adapter.notifyDataSetChanged(); //restart left swipe view

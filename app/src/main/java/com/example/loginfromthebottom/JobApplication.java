@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -42,8 +43,10 @@ public class JobApplication extends AppCompatActivity {
     EditText startDate;
     ImageButton uploadFile;
     TextView fileName;
-    Database database= Database.getInstance();
+    Database database = Database.getInstance();
     ImageButton save;
+    ImageButton cancel;
+private final String EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,27 +113,28 @@ public class JobApplication extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         s.setAdapter(adapter);
 
-        firstName= findViewById(R.id.fisrtName);
-        lastName=  findViewById(R.id.lastName);
+        firstName = findViewById(R.id.fisrtName);
+        lastName = findViewById(R.id.lastName);
         streetAddress = findViewById(R.id.address1);
         streetAddressSecondLineII = findViewById(R.id.address2);
         city = findViewById(R.id.City);
         stateOrProvince = findViewById(R.id.StateOProvince);
-        postalCode= findViewById(R.id.postalCode);
-        country= findViewById(R.id.Country);
-        email= findViewById(R.id.email);
-        areaCode= findViewById(R.id.areaCode);
-        phone= findViewById(R.id.phone);
+        postalCode = findViewById(R.id.postalCode);
+        country = findViewById(R.id.Country);
+        email = findViewById(R.id.email);
+        areaCode = findViewById(R.id.areaCode);
+        phone = findViewById(R.id.phone);
         applyingJob = findViewById(R.id.applyingJob);
-        startDate= findViewById(R.id.Fecha);
-        uploadFile= findViewById(R.id.uploadFile);
+        startDate = findViewById(R.id.Fecha);
+        uploadFile = findViewById(R.id.uploadFile);
         fileName = findViewById(R.id.fileName);
         save = findViewById(R.id.save);
+        cancel = findViewById(R.id.cancel_action);
 
         uploadFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent file= new Intent(Intent.ACTION_GET_CONTENT);
+                Intent file = new Intent(Intent.ACTION_GET_CONTENT);
                 file.setType("*/*");
                 startActivityForResult(file, 10);
             }
@@ -139,15 +143,81 @@ public class JobApplication extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              submitForm();
+                if (validar()) {
+                    submitForm();
+                } else {
+                    Toast.makeText(getApplicationContext(), "There is Empty fields in the form", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancelAction();
             }
         });
 
     }
 
-    private boolean empty() {
-        return false;
+    private void cancelAction() {
+        firstName.setText("");
+        lastName.setText("");
+        streetAddress.setText("");
+        streetAddressSecondLineII.setText("");
+        city.setText("");
+        areaCode.setText("");
+        phone.setText("");
+        postalCode.setText("");
+        email.setText("");
+        startDate.setText("");
+        stateOrProvince.setText("");
+        Intent nav = new Intent(getApplicationContext(), NavDrawerActivity.class);
+        startActivity(nav);
+        finish();
     }
+
+    private boolean validar() {
+        if(!(email.getText().toString().trim().matches(EMAIL_PATTERN))){
+            email.setError("Invalid email address");
+            return false;
+        }else if (String.valueOf(firstName.getText()).isEmpty()) {
+            firstName.setError("This field cannot be blank");
+            return false;
+        } else if (String.valueOf(lastName.getText()).isEmpty()) {
+            lastName.setError("This field cannot be blank");
+            return false;
+        } else if (String.valueOf(streetAddress.getText()).isEmpty()) {
+            streetAddress.setError("This field cannot be blank");
+            return false;
+        } else if (String.valueOf(streetAddressSecondLineII.getText()).isEmpty()) {
+            streetAddressSecondLineII.setError("This field cannot be blank");
+            return false;
+        } else if (String.valueOf(city.getText()).isEmpty()) {
+            city.setError("This filed cannot be blank");
+            return false;
+        } else if (String.valueOf(stateOrProvince.getText()).isEmpty()) {
+            stateOrProvince.setError("This field cannot be blank");
+            return false;
+        } else if (String.valueOf(postalCode.getText()).isEmpty()) {
+            postalCode.setError("This field cannot be blank");
+            return false;
+        } else if (String.valueOf(email.getText()).isEmpty()) {
+            email.setError("This field cannot be blank");
+            return false;
+        } else if (String.valueOf(areaCode.getText()).isEmpty()) {
+            areaCode.setError("This field cannot be blank");
+            return false;
+        } else if (String.valueOf(phone.getText()).isEmpty()) {
+            phone.setError("This field cannot be blank");
+            return false;
+        } else if (String.valueOf(startDate.getText()).isEmpty()) {
+            startDate.setError("This field cannot be blank");
+            return false;
+        }
+        return true;
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -156,13 +226,12 @@ public class JobApplication extends AppCompatActivity {
             case 10:
                 if (resultCode == RESULT_OK) {
                     String path = data.getData().getPath();
-                    String name= path.substring(path.lastIndexOf("/")+1);
+                    String name = path.substring(path.lastIndexOf("/") + 1);
                     fileName.setText(path);
                 }
                 break;
         }
     }
-
 
 
     private void submitForm() {
@@ -182,17 +251,18 @@ public class JobApplication extends AppCompatActivity {
             String dateStr = startDate.getText().toString();
             DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             Date date = format.parse(dateStr);
-           String file=fileName.getText().toString();
-            JobApplicationModel jobApp = new JobApplicationModel(Database.idJobApp++, name,lastNameTxt,streetLine,streetLine2,cityTxt,state,postal,countryTxt,
-                    emailTxt,areaCodeTxt,phoneTxt,position,date,file);
+            String file = fileName.getText().toString();
+            JobApplicationModel jobApp = new JobApplicationModel(Database.idJobApp++, name, lastNameTxt, streetLine, streetLine2, cityTxt, state, postal, countryTxt,
+                    emailTxt, areaCodeTxt, phoneTxt, position, date, file);
 
             Database.getListOfApplications().add(jobApp);
             Toast.makeText(getApplicationContext(), "Informacion Guardada", Toast.LENGTH_LONG).show();
             for (JobApplicationModel job : Database.getListOfApplications()) {
                 Log.v("JOB APP", job.toString());
             }
+            Intent nav = new Intent(getApplicationContext(), NavDrawerActivity.class);
+            startActivity(nav);
             finish();
-            startActivity(getIntent());
 
 
         } catch (Exception e) {
@@ -208,7 +278,7 @@ public class JobApplication extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
-        startActivity(new Intent(this,NavDrawerActivity.class));
+        startActivity(new Intent(this, NavDrawerActivity.class));
         super.onBackPressed();
     }
 }
