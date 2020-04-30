@@ -40,15 +40,17 @@ public class MainActivity extends AppCompatActivity {
                     User u=null;
                     String user = String.valueOf(username.getText());
                     for(User i: data.getListUser()){
-                        if(i.getUsername().equals(i.getUsername())){
+                        if(i.getUsername().equals(user)){
                             u=new User(i.getUsername(),i.getPassword(),i.getRol());
                         }
                     }
                     if (u.getRol()==1) {
-                        Toast.makeText(getApplicationContext(), "Admin view is not ready", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Hello " + username.getText().toString(), Toast.LENGTH_LONG).show();
+                        Intent jobApp = new Intent(getApplicationContext(), ListJobActivity.class);
+                        startActivity(jobApp);
                     } else {
                         Toast.makeText(getApplicationContext(), "Exito", Toast.LENGTH_LONG).show();
-                        Intent JobApplication = new Intent(getApplicationContext(), JobApplication.class);
+                        Intent JobApplication = new Intent(getApplicationContext(), NavDrawerActivity.class);
                         startActivity(JobApplication);
                         finish();
                     }
