@@ -13,6 +13,8 @@
             android:name=".NavDrawerActivity"
             android:label="@string/title_activity_nav_drawer"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".ViewJobApplication"
+            android:label="ViewJobApplication"></activity>
         <activity android:name=".ListJobActivity" />
         <activity
             android:name=".ChangePassword"
