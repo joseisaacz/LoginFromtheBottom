@@ -60,6 +60,9 @@ public class ListJobActivity extends AppCompatActivity implements RecyclerItemTo
         } else {
             //If is editing a row object
             JobApplicationModel aux = adapter.getSwipedItem(viewHolder.getAdapterPosition());
+            Intent intent = new Intent(this,ViewJobApplication.class);
+            intent.putExtra("application",aux);
+            startActivity(intent);
             //send data to Edit Activity
            //Intent intent = new Intent(this, AddUpdCarreraActivity.class);
 //            intent.putExtra("editable", true);
