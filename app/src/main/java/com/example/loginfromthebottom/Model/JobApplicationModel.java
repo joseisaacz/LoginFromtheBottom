@@ -1,8 +1,9 @@
 package com.example.loginfromthebottom.Model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class JobApplicationModel {
+public class JobApplicationModel implements Serializable {
 
     private int id;
     private String firstName;
