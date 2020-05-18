@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText username;
     private EditText password;
-    private Database data= Database.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +38,10 @@ public class MainActivity extends AppCompatActivity {
                 if (validar()) {
                     User u=null;
                     String user = String.valueOf(username.getText());
-                    for(User i: data.getListUser()){
+                    for(User i: Database.listUser){
                         if(i.getUsername().equals(user)){
                             u=new User(i.getUsername(),i.getPassword(),i.getRol());
+
                         }
                     }
                     if (u.getRol()==1) {
@@ -80,8 +80,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean validar() {
         String user = String.valueOf(username.getText());
         String pass = String.valueOf(password.getText());
-        for (User i : data.getListUser()) {
+        for (User i : Database.listUser) {
             if (user.equals(i.getUsername()) && pass.equals(i.getPassword())) {
+                Database.currentUser=i.getUsername();
                 return true;
             }
         }

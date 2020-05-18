@@ -25,6 +25,7 @@ import com.example.loginfromthebottom.NavDrawerActivity;
 import com.example.loginfromthebottom.R;
 import com.example.loginfromthebottom.ViewJobApplication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -39,8 +40,9 @@ public class HomeFragment extends Fragment {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        list = Database.getListOfApplications();
+
         listView = root.findViewById(R.id.listView);
+        list=Database.getJobApplicationsByUserName(Database.currentUser);
         Object[] array = list.toArray();
         final ArrayAdapter<Object> listViewAdapter = new ArrayAdapter<Object>(
                 getActivity(),
@@ -52,7 +54,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
                 clickedObject = (JobApplicationModel) adapter.getItemAtPosition(position);
-                Intent intent = new Intent(getActivity().getBaseContext(), ViewJobApplication.class);
+                Intent intent = new Intent(getActivity().getBaseContext(), JobApplication.class);
                 intent.putExtra("application",clickedObject);
                 HomeFragment.this.startActivity(intent);
 

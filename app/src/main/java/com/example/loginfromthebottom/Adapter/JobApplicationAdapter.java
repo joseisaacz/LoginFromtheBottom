@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.loginfromthebottom.Data.Database;
 import com.example.loginfromthebottom.Model.JobApplicationModel;
 import com.example.loginfromthebottom.R;
 
@@ -77,6 +78,8 @@ public class JobApplicationAdapter extends RecyclerView.Adapter<JobApplicationAd
     }
 
     public void removeItem(int position) {
+
+        Database.deleteJobApplication(  listFiltered.get(position).getId());
         deletedItem = listFiltered.remove(position);
         Iterator<JobApplicationModel> iter = list.iterator();
         while (iter.hasNext()) {
@@ -84,6 +87,7 @@ public class JobApplicationAdapter extends RecyclerView.Adapter<JobApplicationAd
             if (deletedItem.equals(aux))
                 iter.remove();
         }
+
         // notify item removed
         notifyItemRemoved(position);
     }

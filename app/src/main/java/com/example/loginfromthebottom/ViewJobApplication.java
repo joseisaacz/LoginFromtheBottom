@@ -34,7 +34,6 @@ public class ViewJobApplication extends AppCompatActivity {
     TextView applyingJob;
     TextView startDate;
     TextView fileName;
-    Database database = Database.getInstance();
     ImageButton cancel;
     JobApplicationModel app;
 

@@ -339,7 +339,6 @@
                     android:id="@+id/applyingJob"
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
-                    android:entries="@array/jobs"
                     />
             </LinearLayout>
         </TableRow>
