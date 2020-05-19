@@ -14,7 +14,6 @@ import com.example.loginfromthebottom.Data.Database;
 import com.example.loginfromthebottom.Model.User;
 
 public class ChangePassword extends AppCompatActivity {
-    private Database data= Database.getInstance();
     private String user;
     private EditText oldpass;
     private EditText newpass;
@@ -48,7 +47,7 @@ public class ChangePassword extends AppCompatActivity {
                     if(passwordConfirmation()){
                         String oldpassw = String.valueOf(oldpass.getText());
                         String pass = String.valueOf(newpass.getText());
-                        for(User i: data.getListUser()){
+                        for(User i: Database.listUser){
                             if(user.equals(i.getUsername())&&oldpassw.equals(i.getPassword())){
                                 i.setPassword(pass);
                                 Toast.makeText(getApplicationContext(), "Password Changed Successfully", Toast.LENGTH_LONG).show();
@@ -83,7 +82,7 @@ public class ChangePassword extends AppCompatActivity {
     }
 
     private boolean oldPasswordConfirmation() {
-        for(User i: data.getListUser()) {
+        for(User i: Database.listUser) {
             if (String.valueOf(oldpass.getText()).equals(i.getPassword())){
                 return true;
             }

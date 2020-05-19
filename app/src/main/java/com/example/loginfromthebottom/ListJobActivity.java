@@ -19,9 +19,12 @@ import com.example.loginfromthebottom.Adapter.RecyclerItemTouchHelper;
 import com.example.loginfromthebottom.Data.Database;
 import com.example.loginfromthebottom.Model.JobApplicationModel;
 
+import java.util.List;
+
 public class ListJobActivity extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, JobApplicationAdapter.JobAppAdapterListener{
     private RecyclerView recyclerView;
     private JobApplicationAdapter adapter;
+    private List<JobApplicationModel> list= Database.getAllApplications();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +34,12 @@ public class ListJobActivity extends AppCompatActivity implements RecyclerItemTo
 
         LinearLayoutManager linearLayoutManager= new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter= new JobApplicationAdapter(Database.getListOfApplications(),this);
+        if(Database.currentUser.equals("admin"))
+            adapter= new JobApplicationAdapter(list,this);
+        else
+            adapter= new JobApplicationAdapter(Database.getJobApplicationsByUserName(Database.currentUser),this);
+
+
         recyclerView.setAdapter(adapter);
         //delete swiping left and right
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
@@ -47,7 +55,7 @@ public class ListJobActivity extends AppCompatActivity implements RecyclerItemTo
         if (direction == ItemTouchHelper.START) {
             if (viewHolder instanceof JobApplicationAdapter.MyViewHolder) {
                 // get the removed item name to display it in snack bar
-                String name = Database.getListOfApplications().get(viewHolder.getAdapterPosition()).getFirstName();
+                String name = list.get(viewHolder.getAdapterPosition()).getFirstName();
 
                 // save the index deleted
                 final int deletedIndex = viewHolder.getAdapterPosition();

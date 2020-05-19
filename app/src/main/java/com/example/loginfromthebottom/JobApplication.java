@@ -24,8 +24,10 @@ import com.example.loginfromthebottom.Model.JobApplicationModel;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class JobApplication extends AppCompatActivity {
     EditText firstName;
@@ -43,9 +45,10 @@ public class JobApplication extends AppCompatActivity {
     EditText startDate;
     ImageButton uploadFile;
     TextView fileName;
-    Database database = Database.getInstance();
     ImageButton save;
     ImageButton cancel;
+    JobApplicationModel app;
+    int editId;
 private final String EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,18 @@ private final String EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
                 datePickerDialog[0].show();
             }
         });
+
+        String[] positions= new String[]{
+                "Java Developer",
+                ".NET Developer",
+                "React Developer",
+                "Android Developer"
+        };
+        applyingJob = findViewById(R.id.applyingJob);
+        ArrayAdapter<String> adapterPositions = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, positions);
+        adapterPositions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        applyingJob.setAdapter(adapterPositions);
 
         String[] countries = new String[]{"Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla",
                 "Antarctica", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas",
@@ -124,7 +139,6 @@ private final String EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         email = findViewById(R.id.email);
         areaCode = findViewById(R.id.areaCode);
         phone = findViewById(R.id.phone);
-        applyingJob = findViewById(R.id.applyingJob);
         startDate = findViewById(R.id.Fecha);
         uploadFile = findViewById(R.id.uploadFile);
         fileName = findViewById(R.id.fileName);
@@ -157,6 +171,33 @@ private final String EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
                 cancelAction();
             }
         });
+        app= (JobApplicationModel) getIntent().getSerializableExtra("application");
+        editId=-1;
+        if(app != null)
+            fromJobApplication();
+
+
+    }
+
+    private void fromJobApplication(){
+        this.firstName.setText(app.getFirstName());
+        this.lastName.setText(app.getLastName());
+        this.streetAddress.setText(app.getStreetAddress());
+        this.streetAddressSecondLineII.setText(app.getStreetAddressSecondLineII());
+        this.city.setText(app.getCity());
+        this.stateOrProvince.setText(app.getStateOrProvince());
+        this.postalCode.setText(String.valueOf(app.getPostalCode()));
+        ArrayAdapter<String> adapter= (ArrayAdapter<String>) this.country.getAdapter();
+        this.country.setSelection(adapter.getPosition(app.getCountry()));
+        this.email.setText(app.getEmailAddress());
+        this.areaCode.setText(app.getAreaCode());
+        this.phone.setText(app.getPhoneNumber());
+        ArrayAdapter<String> adapterJobs= (ArrayAdapter<String>) this.applyingJob.getAdapter();
+        this.applyingJob.setSelection(adapterJobs.getPosition(app.getApplyingJob()));
+        DateFormat format= new SimpleDateFormat("dd/MM/yyyy");
+        this.startDate.setText(format.format(app.getStartDate()));
+        this.fileName.setText(app.getUploadFile());
+        editId=app.getId();
 
     }
 
@@ -252,14 +293,48 @@ private final String EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
             DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             Date date = format.parse(dateStr);
             String file = fileName.getText().toString();
-            JobApplicationModel jobApp = new JobApplicationModel(Database.idJobApp++, name, lastNameTxt, streetLine, streetLine2, cityTxt, state, postal, countryTxt,
-                    emailTxt, areaCodeTxt, phoneTxt, position, date, file);
 
-            Database.getListOfApplications().add(jobApp);
-            Toast.makeText(getApplicationContext(), "Informacion Guardada", Toast.LENGTH_LONG).show();
-            for (JobApplicationModel job : Database.getListOfApplications()) {
-                Log.v("JOB APP", job.toString());
+            if(editId != -1){
+                for(JobApplicationModel i : Database.getJobApplicationsByUserName(Database.currentUser)){
+                    if(i.getId()==app.getId()){
+                        i.setFirstName(name);
+                        i.setLastName(lastNameTxt);
+                        i.setStreetAddress(streetLine);
+                        i.setStreetAddressSecondLineII(streetLine2);
+                        i.setCity(cityTxt);
+                        i.setStateOrProvince(state);
+                        i.setCountry(countryTxt);
+                        i.setEmailAddress(emailTxt);
+                        i.setAreaCode(areaCodeTxt);
+                        i.setPhoneNumber(phoneTxt);
+                        i.setApplyingJob(position);
+                        i.setStartDate(date);
+                        i.setUploadFile(file);
+                        break;
+                    }
+
+                }
+
+                Toast.makeText(getApplicationContext(), "Informacion Actualizada", Toast.LENGTH_LONG).show();
             }
+            else {
+
+                final JobApplicationModel jobApp = new JobApplicationModel(Database.idJobApp++, name, lastNameTxt, streetLine, streetLine2, cityTxt, state, postal, countryTxt,
+                        emailTxt, areaCodeTxt, phoneTxt, position, date, file);
+
+                if (!Database.getMap().containsKey(Database.currentUser)) {
+                    List<JobApplicationModel> list = new ArrayList<JobApplicationModel>() {
+                        {
+                            add(jobApp);
+                        }
+                    };
+                    Database.getMap().put(Database.currentUser, list);
+                } else {
+                    Database.getMap().get(Database.currentUser).add(jobApp);
+                }
+                Toast.makeText(getApplicationContext(), "Informacion Guardada", Toast.LENGTH_LONG).show();
+            }
+
             Intent nav = new Intent(getApplicationContext(), NavDrawerActivity.class);
             startActivity(nav);
             finish();

@@ -18,7 +18,6 @@ public class RegisterUser extends AppCompatActivity {
     private EditText username;
     private EditText password;
     private EditText confirmPassword;
-    Database data = Database.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +39,12 @@ public class RegisterUser extends AppCompatActivity {
                 if (passwordConfirmation()) {
                     String user= String.valueOf(username.getText());
                     String pass = String.valueOf(password.getText());
-                    for(User i: data.getListUser()){
+                    for(User i: Database.listUser){
                         if(user.equals(i.getUsername())){ Toast.makeText(getApplicationContext(), "User already exists", Toast.LENGTH_LONG).show();
                         finish();}
                     }
                     User nuevo = new User(user,pass,2);
-                    data.getListUser().add(nuevo);
+                    Database.listUser.add(nuevo);
                     Intent login = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(login);
                     finish();
